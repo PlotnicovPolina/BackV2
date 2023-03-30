@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\BackV2.props" />
+</Project>
