@@ -1,4 +1,5 @@
 using Back.Data;
+using BackV2.AutoMapperProfile;
 using BackV2.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +13,9 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddDbContext<ApplicationDBContext>(
     options => {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+        options
+        .UseLazyLoadingProxies()
+        .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
     });
 
 builder.Services.AddSwaggerGen(c =>
@@ -28,6 +31,8 @@ builder.Services.AddSwaggerGen(c =>
     c.EnableAnnotations();
 
 });
+
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 builder.Services.AddScoped<EFCoreRaceRepository>();
 

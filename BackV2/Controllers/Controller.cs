@@ -1,12 +1,11 @@
-﻿using Azure;
-using Back.Data.Entities;
+﻿using AutoMapper;
+using BackV2.Controllers.Dto;
 using BackV2.Data;
 using BackV2.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace BackV2.Controllers
+namespace BackV2.Controllers.Mapping
 {
     [ApiController]
     [Route("[controller]")]
@@ -14,17 +13,19 @@ namespace BackV2.Controllers
         where TEntity : class, IEntity
         where TRepository : IRepository<TEntity>
     {
-        private readonly TRepository _repository;
-        public Controller(TRepository repository)
+        protected readonly TRepository _repository;
+        public readonly IMapper _mapper;
+        public Controller(TRepository repository, IMapper mapper)
         {
-            this._repository = repository;
+            _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
         [SwaggerOperation(
-          Summary = "Return list of race",
-          OperationId = "race.getRaceList",
-          Tags = new[] { "Races" })
+          Summary = "Return all ",
+          OperationId = "comon.getRaceList",
+          Tags = new[] { "Common" })
         ]
         public async Task<ActionResult<IEnumerable<TEntity>>> GetAllAsync()
         {
@@ -35,9 +36,9 @@ namespace BackV2.Controllers
         [HttpGet]
         [Route("{id}")]
         [SwaggerOperation(
-          Summary = "Return race by id",
-          OperationId = "race.getRaceById",
-          Tags = new[] { "Races" })
+          Summary = "Return by id",
+          OperationId = "common.getRaceById",
+          Tags = new[] { "Common" })
         ]
         public async Task<ActionResult<TEntity>> GetAsync(int id)
         {
@@ -55,8 +56,8 @@ namespace BackV2.Controllers
          Tags = new[] { "Races" })
         ]
         public async Task<ActionResult<TEntity>> AddAsync([FromBody] TEntity entity)
-        { 
-            await _repository.AddAsync(entity);
+        {
+            await _repository.AddAsync(entity);        
             return Created($"/getById/?Id={entity.Id}", entity);
         }
 
@@ -72,11 +73,12 @@ namespace BackV2.Controllers
             return NoContent();
         }
 
+
         [HttpDelete]
         [SwaggerOperation(
-          Summary = "Delete race",
-          OperationId = "race.deleteRace",
-          Tags = new[] { "Races" })
+          Summary = "Delete",
+          OperationId = "common.delete",
+          Tags = new[] { "Common" })
         ]
         public async Task<ActionResult<TEntity>> DeleteAsync(int id)
         {

@@ -10,7 +10,7 @@ namespace BackV2.Data
         where TContext: DbContext
         where TEntity : class, IEntity
     {
-        private readonly TContext dbContext;
+        protected readonly TContext dbContext;
 
         public EFCoreRepository(TContext dbcontext) {this.dbContext = dbcontext;}
 

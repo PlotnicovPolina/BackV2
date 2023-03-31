@@ -19,7 +19,6 @@ namespace Back.Data.Entities
         public int Lifespan { get; set; }
         public virtual Size Size { get; set; }
         public int SizeId { get; set; }
-        //public SizeEnum SizeEnum { get; set; }
         //public Coat Coat { get; set; }   
     }
 
@@ -36,12 +35,5 @@ namespace Back.Data.Entities
         Small = 1,
         Medium = 2,
         Large = 3,
-    }
-
-    public enum Coat
-    {
-        Short = 1,
-        Middle = 2,
-        Long = 3,
     }
 }

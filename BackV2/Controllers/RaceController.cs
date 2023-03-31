@@ -1,19 +1,16 @@
-﻿using Back.Data;
+﻿using AutoMapper;
 using Back.Data.Entities;
-using BackV2.Controllers;
+using BackV2.AutoMapperProfile;
 using BackV2.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Swashbuckle.AspNetCore.Annotations;
 
-namespace Back.Controllers
+namespace Back.Controllers.Mapping
 {
     [ApiController]
     [Route("[controller]")]
-    public class RaceController : Controller<Race, EFCoreRaceRepository>
+    public class RaceController : BackV2.Controllers.Mapping.Controller<Race, EFCoreRaceRepository>
     {
-        public RaceController(EFCoreRaceRepository repository) : base(repository) { 
-        
+        public RaceController(EFCoreRaceRepository repository, IMapper mapper) : base(repository,mapper) {
 
         }
     }

@@ -75,3 +75,7 @@ C:\Users\user\projects\BackV2\BackV2\obj\Debug\net7.0\refint\BackV2.dll
 C:\Users\user\projects\BackV2\BackV2\obj\Debug\net7.0\BackV2.pdb
 C:\Users\user\projects\BackV2\BackV2\obj\Debug\net7.0\BackV2.genruntimeconfig.cache
 C:\Users\user\projects\BackV2\BackV2\obj\Debug\net7.0\ref\BackV2.dll
+C:\Users\user\projects\BackV2\BackV2\bin\Debug\net7.0\Castle.Core.dll
+C:\Users\user\projects\BackV2\BackV2\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Proxies.dll
+C:\Users\user\projects\BackV2\BackV2\bin\Debug\net7.0\AutoMapper.dll
+C:\Users\user\projects\BackV2\BackV2\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

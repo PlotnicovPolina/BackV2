@@ -1,6 +1,8 @@
 ﻿using Back.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.Linq;
+using System.Data;
 
 namespace Back.Data
 {
@@ -25,9 +27,10 @@ namespace Back.Data
                        Id = (int)e,
                        Name = e.ToString()
                    }));
+
             modelBuilder
-                .Entity<Race>();
-        //        .HasCheckConstraint("SizeBound", sql: "Race.SizeId > 0 and Race.SizeId < 4");
+                .Entity<Race>()          
+                .HasOne(r => r.Size);
         }
     }
 }
