@@ -7,8 +7,8 @@ namespace BackV2.AutoMapperProfile
     public class AutoMapperProfile:Profile
     {
         public AutoMapperProfile() {
-            CreateMap<Race, RaceDto>();
-            CreateMap<Race, RaceDto>().ReverseMap();
+            CreateMap<RaceDto, Race>();
+            CreateMap<RaceDto, Race>().ReverseMap();
         }
     }
 }
