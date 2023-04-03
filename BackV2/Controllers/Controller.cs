@@ -9,8 +9,9 @@ namespace BackV2.Controllers.Mapping
 {
     [ApiController]
     [Route("[controller]")]
-    public abstract class Controller<TEntity, TRepository> : ControllerBase
+    public abstract class Controller<TEntity, TRepository, TDto> : ControllerBase
         where TEntity : class, IEntity
+        where TDto : class, IDto
         where TRepository : IRepository<TEntity>
     {
         protected readonly TRepository _repository;
@@ -24,12 +25,14 @@ namespace BackV2.Controllers.Mapping
         [HttpGet]
         [SwaggerOperation(
           Summary = "Return all ",
-          OperationId = "comon.getRaceList",
+          OperationId = "comon.getList",
           Tags = new[] { "Common" })
         ]
-        public async Task<ActionResult<IEnumerable<TEntity>>> GetAllAsync()
+        public async Task<ActionResult<List<TDto>>> GetAllAsync()
         {
-            var result = await _repository.GetAllAsync();
+            var raceList = await _repository.GetAllAsync();
+            var result = _mapper.Map<List<TDto>>(raceList);
+
             return Ok(result);
         }
 
@@ -37,52 +40,66 @@ namespace BackV2.Controllers.Mapping
         [Route("{id}")]
         [SwaggerOperation(
           Summary = "Return by id",
-          OperationId = "common.getRaceById",
+          OperationId = "common.getById",
           Tags = new[] { "Common" })
         ]
-        public async Task<ActionResult<TEntity>> GetAsync(int id)
+        public async Task<ActionResult<TDto>> GetAsync(int id)
         {
             var result = await _repository.GetAsync(id);
 
             if (result == null) return NotFound();
 
-            return Ok(result);
+            var resultDto = _mapper.Map<TDto>(result);
+
+            return Ok(resultDto);
         }
 
         [HttpPost]
         [SwaggerOperation(
-         Summary = "Add new race",
-         OperationId = "race.addRace",
-         Tags = new[] { "Races" })
+         Summary = "Add",
+         OperationId = "common.add",
+         Tags = new[] { "Common" })
         ]
-        public async Task<ActionResult<TEntity>> AddAsync([FromBody] TEntity entity)
+        public async Task<ActionResult<TDto>> AddAsync([FromBody] TDto dto)
         {
-            await _repository.AddAsync(entity);        
-            return Created($"/getById/?Id={entity.Id}", entity);
+            var result = _mapper.Map<TEntity>(dto);
+
+            await _repository.AddAsync(result);
+            await _repository.SaveAsync();
+
+            return Created($"/getById/?Id={result.Id}", result);
         }
 
         [HttpPut]
+        [Route("{id}")]
         [SwaggerOperation(
          Summary = "Update ",
-         OperationId = "race.updateRace",
-         Tags = new[] { "Races" })
+         OperationId = "common.update",
+         Tags = new[] { "Common" })
        ]
-        public async Task<ActionResult<TEntity>> UpdateAsync(TEntity entity)
+        public async Task<ActionResult<TEntity>> UpdateAsync([FromBody] TDto dto,[FromRoute] int id)
         {
+            var entity = await _repository.GetAsync(id);
+
+            entity = _mapper.Map(dto, entity);
+
             await _repository.UpdateAsync(entity);
+            await _repository.SaveAsync();
             return NoContent();
         }
 
 
         [HttpDelete]
+        [Route("{id}")]
         [SwaggerOperation(
           Summary = "Delete",
           OperationId = "common.delete",
           Tags = new[] { "Common" })
         ]
-        public async Task<ActionResult<TEntity>> DeleteAsync(int id)
+        public async Task<ActionResult<TEntity>> DeleteAsync([FromRoute] int id)
         {
             var entity = await _repository.DeleteAsync(id);
+            await _repository.SaveAsync();
 
             if (entity == null)
                 return NotFound();

@@ -21,14 +21,12 @@ namespace BackV2.Data
         public async Task<TEntity> AddAsync(TEntity entity)
         {
             dbContext.Set<TEntity>().Add(entity);
-            await dbContext.SaveChangesAsync();
             return entity;
         }
         
         public async Task<TEntity> UpdateAsync(TEntity entity)
         {
             dbContext.Set<TEntity>().Update(entity);
-            await dbContext.SaveChangesAsync();
             return entity;
         }
         
@@ -39,9 +37,13 @@ namespace BackV2.Data
             if (entity == null) return null;
 
             dbContext.Set<TEntity>().Remove(entity);
-            await dbContext.SaveChangesAsync();
 
             return entity;
+        }
+
+        public async Task SaveAsync()
+        {
+            await dbContext.SaveChangesAsync();
         }
     }
 }

@@ -6,6 +6,6 @@ namespace BackV2.Controllers.Dto
     {
         public string Name { get; set; }
         public int Lifespan { get; set; }
-        public int Size { get; set; }
+        public int SizeId { get; set; }
     }
 }
