@@ -11,8 +11,7 @@ namespace Back.Controllers.Mapping
     [Route("[controller]")]
     public class RaceController : BackV2.Controllers.Mapping.Controller<Race, EFCoreRaceRepository, RaceDto>
     {
-        public RaceController(EFCoreRaceRepository repository, IMapper mapper) : base(repository,mapper) {
+        public RaceController(EFCoreRaceRepository repository, IMapper mapper, ILogger<RaceController> logger) : base(repository,mapper, logger) {}
 
-        }
     }
 }

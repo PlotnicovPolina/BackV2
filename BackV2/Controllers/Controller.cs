@@ -16,10 +16,12 @@ namespace BackV2.Controllers.Mapping
     {
         protected readonly TRepository _repository;
         public readonly IMapper _mapper;
-        public Controller(TRepository repository, IMapper mapper)
+        public readonly ILogger _logger;
+        public Controller(TRepository repository, IMapper mapper, ILogger logger)
         {
             _repository = repository;
             _mapper = mapper;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -32,6 +34,7 @@ namespace BackV2.Controllers.Mapping
         {
             var raceList = await _repository.GetAllAsync();
             var result = _mapper.Map<List<TDto>>(raceList);
+            _logger.LogInformation("Test for elastic on Backv2");
 
             return Ok(result);
         }
