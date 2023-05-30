@@ -1,6 +1,7 @@
 using Back.Data;
 using BackV2.AutoMapperProfile;
 using BackV2.Data.Repositories;
+using BackV2.Middleware;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
@@ -64,6 +65,10 @@ if (app.Environment.IsDevelopment())
 app.UseSerilogRequestLogging();
 
 app.UseAuthorization();
+
+app.UseMiddleware<Middleware>();
+
+app.UseRouting();
 
 app.MapControllers();
 
