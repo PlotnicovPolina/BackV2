@@ -1,8 +1,6 @@
 ﻿using Back.Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using System.Linq;
-using System.Data;
+using BackV2.Data.Entities;
 
 namespace Back.Data
 {
@@ -13,6 +11,11 @@ namespace Back.Data
         public DbSet<Race> Race { get; set; }
 
         public DbSet<Size> Size { get; set; }
+
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<Block> Blocks { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

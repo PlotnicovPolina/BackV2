@@ -1,7 +1,11 @@
 using Back.Data;
 using BackV2.AutoMapperProfile;
 using BackV2.Data.Repositories;
+using BackV2.InternalService;
+using BackV2.InternalService.Interface;
 using BackV2.Middleware;
+using BackV2.Services;
+using BackV2.Services.Interface;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
@@ -38,6 +42,12 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 builder.Services.AddScoped<EFCoreRaceRepository>();
+builder.Services.AddScoped<EFCoreUserRepository>();
+builder.Services.AddScoped<EFCoreBlockRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IBlockService, BlockService>();
+
+builder.Services.AddHostedService<HostedService>();
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()

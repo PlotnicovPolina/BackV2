@@ -1,5 +1,7 @@
 ﻿using BackV2.BackV2Exception;
 using System.Diagnostics;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace BackV2.Middleware
 {
@@ -25,7 +27,15 @@ namespace BackV2.Middleware
             catch (BaseException ex)
             {
                 Debug.WriteLine($"Error (MiddleWare class): {ex.Message}");
-                await context.Response.WriteAsync(ex.Message);
+                context.Response.StatusCode = StatusCodes.Status404NotFound;
+                var output = new JsonObject
+                {
+                    ["status"] = "error",
+                    ["message"] = ex.Message    
+                };
+                var options = new JsonSerializerOptions { WriteIndented = true };
+                Console.WriteLine(output.ToJsonString(options));
+                await context.Response.WriteAsJsonAsync(output);
 
             }
         }

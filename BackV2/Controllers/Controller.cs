@@ -28,7 +28,7 @@ namespace BackV2.Controllers.Mapping
         [SwaggerOperation(
           Summary = "Return all ",
           OperationId = "comon.getList",
-          Tags = new[] { "Common" })
+          Tags = new[] {"Common"})
         ]
         public async Task<ActionResult<List<TDto>>> GetAllAsync()
         {
